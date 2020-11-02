@@ -1,4 +1,4 @@
-package com.aldidwikip.mygithubuser.util
+package com.aldidwikip.mygithubuser.helper
 
 sealed class DataState<out R> {
     data class Success<out T>(val data: T) : DataState<T>()

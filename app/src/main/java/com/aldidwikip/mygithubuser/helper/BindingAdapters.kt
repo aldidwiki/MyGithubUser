@@ -1,4 +1,4 @@
-package com.aldidwikip.mygithubuser.util
+package com.aldidwikip.mygithubuser.helper
 
 import android.widget.TextView
 import androidx.databinding.BindingAdapter

@@ -8,11 +8,11 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.aldidwikip.mygithubuser.R
+import com.aldidwikip.mygithubuser.adapter.SectionsPagerAdapter
 import com.aldidwikip.mygithubuser.data.User
 import com.aldidwikip.mygithubuser.databinding.ActivityDetailBinding
-import com.aldidwikip.mygithubuser.adapter.SectionsPagerAdapter
-import com.aldidwikip.mygithubuser.util.DataState
-import com.aldidwikip.mygithubuser.util.showLoading
+import com.aldidwikip.mygithubuser.helper.DataState
+import com.aldidwikip.mygithubuser.helper.showLoading
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_detail.*
 
@@ -32,8 +32,8 @@ class DetailActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_detail)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val username = intent.getStringExtra(EXTRA_USER)
-        subscribeData(username!!)
+        val username = intent.getStringExtra(EXTRA_USER) as String
+        subscribeData(username)
     }
 
     private fun subscribeData(username: String) {

@@ -18,9 +18,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.aldidwikip.mygithubuser.R
 import com.aldidwikip.mygithubuser.adapter.UsersAdapter
 import com.aldidwikip.mygithubuser.data.Users
+import com.aldidwikip.mygithubuser.helper.DataState
+import com.aldidwikip.mygithubuser.helper.showLoading
 import com.aldidwikip.mygithubuser.ui.detail.DetailActivity
-import com.aldidwikip.mygithubuser.util.DataState
-import com.aldidwikip.mygithubuser.util.showLoading
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.delay

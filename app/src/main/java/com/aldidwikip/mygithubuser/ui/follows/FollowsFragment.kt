@@ -11,11 +11,11 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aldidwikip.mygithubuser.R
-import com.aldidwikip.mygithubuser.data.Users
 import com.aldidwikip.mygithubuser.adapter.UsersAdapter
+import com.aldidwikip.mygithubuser.data.Users
+import com.aldidwikip.mygithubuser.helper.DataState
+import com.aldidwikip.mygithubuser.helper.showLoading
 import com.aldidwikip.mygithubuser.ui.detail.DetailActivity
-import com.aldidwikip.mygithubuser.util.DataState
-import com.aldidwikip.mygithubuser.util.showLoading
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_follows.*
 
@@ -27,7 +27,7 @@ class FollowsFragment : Fragment(), UsersAdapter.OnItemClickCallback {
         private const val ARG_SECTION_INDEX = "section_index"
         private const val ARG_SECTION_USERNAME = "section_username"
 
-        fun newInstance(username: String, index: Int): FollowsFragment {
+        fun newInstance(username: String?, index: Int): FollowsFragment {
             val args = Bundle().apply {
                 putString(ARG_SECTION_USERNAME, username)
                 putInt(ARG_SECTION_INDEX, index)
@@ -47,13 +47,13 @@ class FollowsFragment : Fragment(), UsersAdapter.OnItemClickCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val username = arguments?.getString(ARG_SECTION_USERNAME)
-        val index = arguments?.getInt(ARG_SECTION_INDEX)
+        val username = arguments?.getString(ARG_SECTION_USERNAME) as String
+        val index = arguments?.getInt(ARG_SECTION_INDEX) as Int
 
-        followsViewModel.getFollows(username!!)
+        followsViewModel.getFollows(username)
 
         initRecyclerView()
-        subscribeData(index!!)
+        subscribeData(index)
     }
 
     private fun initRecyclerView() {

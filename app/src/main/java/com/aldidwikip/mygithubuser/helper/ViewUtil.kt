@@ -1,4 +1,4 @@
-package com.aldidwikip.mygithubuser.util
+package com.aldidwikip.mygithubuser.helper
 
 import android.view.View
 import android.widget.ProgressBar

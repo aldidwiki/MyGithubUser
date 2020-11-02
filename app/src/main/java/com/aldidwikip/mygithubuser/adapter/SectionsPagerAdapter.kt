@@ -16,7 +16,7 @@ class SectionsPagerAdapter(private val mContext: Context, fm: FragmentManager) :
     override fun getCount(): Int = 2
 
     override fun getItem(position: Int): Fragment {
-        return FollowsFragment.newInstance(username!!, position)
+        return FollowsFragment.newInstance(username, position)
     }
 
     override fun getPageTitle(position: Int): CharSequence? {

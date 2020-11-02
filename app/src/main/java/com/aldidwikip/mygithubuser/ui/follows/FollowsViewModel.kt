@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aldidwikip.mygithubuser.data.AppRepository
 import com.aldidwikip.mygithubuser.data.Users
-import com.aldidwikip.mygithubuser.util.DataState
+import com.aldidwikip.mygithubuser.helper.DataState
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
