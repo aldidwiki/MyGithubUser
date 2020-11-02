@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedQuantity">
+    <string name="app_name">Aplikasi Github</string>
+    <string name="search_user">Cari Pengguna…</string>
+    <string name="followers">%d\nPengikut</string>
+    <string name="following">%d\nDiikuti</string>
+    <string name="user_id">ID Pengguna : %d</string>
+    <string name="connection_error">Koneksi Eror</string>
+    <string name="unknown">Tidak Diketahui</string>
+    <string name="not_mentioned">Tidak Disebutkan</string>
+    <string name="double_tap_to_exit">Mohon klik lagi untuk keluar aplikasi</string>
+    <string name="no_result_found">Data tidak Ditemukan</string>
+
+    <plurals name="plural_repository">
+        <item quantity="one">%d\nRepositori</item>
+        <item quantity="other">%d\nRepositori</item>
+    </plurals>
+
+    <string name="tab_title_1">Diikuti</string>
+    <string name="tab_title_2">Pengikut</string>
+    <string name="language">Bahasa</string>
+</resources>

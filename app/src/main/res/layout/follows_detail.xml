@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="userData"
+            type="com.aldidwikip.mygithubuser.data.User" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1.2">
+
+        <TextView
+            android:id="@+id/tv_followings"
+            style="@style/TextFollows"
+            android:text="@{String.format(@string/following, userData.following)}"
+            tools:text="100\nFollowings" />
+
+        <TextView
+            android:id="@+id/tv_repositories"
+            style="@style/TextFollows"
+            app:string_plurals="@{userData.repositoryNum}"
+            tools:text="50\nRepositories" />
+
+        <TextView
+            android:id="@+id/tv_followers"
+            style="@style/TextFollows"
+            android:text="@{String.format(@string/followers, userData.followers)}"
+            tools:text="10000\nFollowers" />
+
+    </LinearLayout>
+</layout>

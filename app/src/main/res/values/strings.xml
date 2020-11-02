@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">My Github User</string>
+    <string name="search_user">Search User…</string>
+    <string name="followers">%d\nFollowers</string>
+    <string name="following">%d\nFollowing</string>
+    <string name="user_id">User ID : %d</string>
+    <string name="connection_error">Connection Error</string>
+    <string name="unknown">Unknown</string>
+    <string name="not_mentioned">Not mentioned</string>
+    <string name="double_tap_to_exit">Please click again to exit</string>
+    <string name="no_result_found">No Result Found</string>
+
+    <plurals name="plural_repository">
+        <item quantity="one">%d\nRepository</item>
+        <item quantity="other">%d\nRepositories</item>
+    </plurals>
+
+    <string name="tab_title_1">Following</string>
+    <string name="tab_title_2">Followers</string>
+    <string name="language">Language</string>
+</resources>
