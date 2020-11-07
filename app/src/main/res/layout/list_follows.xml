@@ -17,8 +17,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/img_photo"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
             android:layout_marginStart="16dp"
             app:img_from_url="@{userData.avatar}"
             app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +32,7 @@
             android:layout_marginStart="24dp"
             android:text="@{userData.username}"
             android:textColor="?colorOnBackground"
-            android:textSize="18sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@+id/tv_id"
             app:layout_constraintStart_toEndOf="@+id/img_photo"
             app:layout_constraintTop_toTopOf="parent"
@@ -46,7 +46,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginBottom="24dp"
             android:text="@{String.format(@string/user_id, userData.id)}"
-            android:textSize="14sp"
+            android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/img_photo"
             tools:text="User ID : 1232123" />

@@ -8,10 +8,11 @@
 
         <variable
             name="userData"
-            type="com.aldidwikip.mygithubuser.data.User" />
+            type="com.aldidwikip.mygithubuser.data.model.User" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/view_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.detail.DetailActivity">

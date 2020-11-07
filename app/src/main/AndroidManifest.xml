@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyGithubUser"
         tools:ignore="AllowBackup">
-        <activity android:name="com.aldidwikip.mygithubuser.ui.detail.DetailActivity" />
+        <activity android:name=".ui.favorite.FavoriteActivity"></activity>
+        <activity android:name=".ui.detail.DetailActivity" />
         <activity
             android:name=".ui.SplashActivity"
             android:screenOrientation="portrait"
@@ -25,7 +26,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.aldidwikip.mygithubuser.ui.main.MainActivity" />
+        <activity android:name=".ui.main.MainActivity" />
     </application>
 
 </manifest>

@@ -1,5 +1,8 @@
-package com.aldidwikip.mygithubuser.data
+package com.aldidwikip.mygithubuser.data.remote
 
+import com.aldidwikip.mygithubuser.data.model.User
+import com.aldidwikip.mygithubuser.data.model.Users
+import com.aldidwikip.mygithubuser.data.model.UsersResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

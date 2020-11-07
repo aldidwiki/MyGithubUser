@@ -8,7 +8,7 @@
 
         <variable
             name="userData"
-            type="com.aldidwikip.mygithubuser.data.User" />
+            type="com.aldidwikip.mygithubuser.data.model.User" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

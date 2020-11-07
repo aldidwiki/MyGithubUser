@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <item
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search"
         android:title="@string/search_user"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:showAsAction="collapseActionView|always" />
+        app:showAsAction="always|collapseActionView"
+        tools:ignore="AlwaysShowAction" />
 
     <item
         android:id="@+id/action_language"
-        android:icon="@drawable/ic_language"
         android:title="@string/language"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_favorite"
+        android:title="@string/favorite_users"
+        app:showAsAction="never" />
+
 </menu>

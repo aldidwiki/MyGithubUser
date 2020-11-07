@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aldidwikip.mygithubuser.R
 import com.aldidwikip.mygithubuser.adapter.UsersAdapter
-import com.aldidwikip.mygithubuser.data.Users
+import com.aldidwikip.mygithubuser.data.model.Users
 import com.aldidwikip.mygithubuser.helper.DataState
 import com.aldidwikip.mygithubuser.helper.showLoading
 import com.aldidwikip.mygithubuser.ui.detail.DetailActivity
@@ -52,18 +52,19 @@ class FollowsFragment : Fragment(), UsersAdapter.OnItemClickCallback {
 
         followsViewModel.getFollows(username)
 
-        initRecyclerView()
         subscribeData(index)
+        initRecyclerView()
     }
 
     private fun initRecyclerView() {
         val itemDecoration = DividerItemDecoration(activity, LinearLayoutManager.VERTICAL)
-        usersAdapter = UsersAdapter()
+        usersAdapter = UsersAdapter(R.layout.list_follows)
         usersAdapter.setOnItemClickCallback(this)
         rv_follows.apply {
             layoutManager = LinearLayoutManager(activity)
             addItemDecoration(itemDecoration)
             adapter = usersAdapter
+            messageView = adaptive_message_view
         }
     }
 
@@ -84,7 +85,10 @@ class FollowsFragment : Fragment(), UsersAdapter.OnItemClickCallback {
                 progress_bar.showLoading(false)
                 Log.e(TAG, "appendData: ${dataState.exception.message}")
             }
-            is DataState.Loading -> progress_bar.showLoading(true)
+            is DataState.Loading -> {
+                progress_bar.showLoading(true)
+                adaptive_message_view.visibility = View.INVISIBLE
+            }
         }
     }
 

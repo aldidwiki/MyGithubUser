@@ -2,6 +2,7 @@ package com.aldidwikip.mygithubuser.ui.detail
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -9,12 +10,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.aldidwikip.mygithubuser.R
 import com.aldidwikip.mygithubuser.adapter.SectionsPagerAdapter
-import com.aldidwikip.mygithubuser.data.User
+import com.aldidwikip.mygithubuser.data.model.User
+import com.aldidwikip.mygithubuser.data.model.UserProperty
 import com.aldidwikip.mygithubuser.databinding.ActivityDetailBinding
 import com.aldidwikip.mygithubuser.helper.DataState
+import com.aldidwikip.mygithubuser.helper.favorite
 import com.aldidwikip.mygithubuser.helper.showLoading
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_detail.*
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class DetailActivity : AppCompatActivity() {
@@ -25,6 +32,8 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private val detailViewModel: DetailViewModel by viewModels()
+    private var isFavorite = false
+    private lateinit var username: String
     private lateinit var binding: ActivityDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,8 +41,12 @@ class DetailActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_detail)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val username = intent.getStringExtra(EXTRA_USER) as String
+        username = intent.getStringExtra(EXTRA_USER) as String
         subscribeData(username)
+
+        isFavorite = runBlocking {
+            withContext(IO) { detailViewModel.isFavorite(username) }
+        }
     }
 
     private fun subscribeData(username: String) {
@@ -42,8 +55,13 @@ class DetailActivity : AppCompatActivity() {
             when (dataState) {
                 is DataState.Success -> {
                     progress_bar.showLoading(false)
-                    appendData(dataState.data)
-                    setupTabLayout(username)
+                    try {
+                        appendData(dataState.data)
+                        setupTabLayout(username)
+                    } catch (e: NullPointerException) {
+                        Log.e(TAG, "subscribeData: ${e.message}")
+                        Toast.makeText(this, getString(R.string.connection_error), Toast.LENGTH_SHORT).show()
+                    }
                 }
                 is DataState.Error -> {
                     progress_bar.showLoading(false)
@@ -69,7 +87,8 @@ class DetailActivity : AppCompatActivity() {
                 following = user.following,
                 repositoryNum = user.repositoryNum,
                 location = location,
-                company = company
+                company = company,
+                id = user.id
         )
     }
 
@@ -82,10 +101,32 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.elevation = 0f
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.favorite_menu, menu)
+        return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        val toggleFav = menu?.findItem(R.id.action_fav)
+        toggleFav?.favorite(isFavorite)
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            onBackPressed()
+        when (item.itemId) {
+            android.R.id.home -> onBackPressed()
+            R.id.action_fav -> {
+                isFavorite = !isFavorite
+                item.favorite(isFavorite)
+                if (isFavorite) {
+                    detailViewModel.saveFavorite(UserProperty(username, true))
+                    Snackbar.make(view_detail, getString(R.string.marked_favorite), Snackbar.LENGTH_SHORT).show()
+                } else {
+                    detailViewModel.deleteFavorite(username)
+                    Snackbar.make(view_detail, getString(R.string.removed_favorite), Snackbar.LENGTH_SHORT).show()
+                }
+            }
         }
-        return super.onOptionsItemSelected(item)
+        return true
     }
 }

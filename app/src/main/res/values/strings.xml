@@ -18,4 +18,10 @@
     <string name="tab_title_1">Following</string>
     <string name="tab_title_2">Followers</string>
     <string name="language">Language</string>
+    <string name="favorite">Favorite</string>
+    <string name="favorite_users">Favorite Users</string>
+    <string name="data_not_available">Nothing to show</string>
+    <string name="marked_favorite">Marked as Favorite</string>
+    <string name="removed_favorite">Removed as Favorite</string>
+    <string name="fav_users_title">Favorite Users</string>
 </resources>

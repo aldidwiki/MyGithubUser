@@ -8,6 +8,7 @@ import android.provider.Settings
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -17,10 +18,11 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aldidwikip.mygithubuser.R
 import com.aldidwikip.mygithubuser.adapter.UsersAdapter
-import com.aldidwikip.mygithubuser.data.Users
+import com.aldidwikip.mygithubuser.data.model.Users
 import com.aldidwikip.mygithubuser.helper.DataState
 import com.aldidwikip.mygithubuser.helper.showLoading
 import com.aldidwikip.mygithubuser.ui.detail.DetailActivity
+import com.aldidwikip.mygithubuser.ui.favorite.FavoriteActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.delay
@@ -41,18 +43,19 @@ class MainActivity : AppCompatActivity(), UsersAdapter.OnItemClickCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        initRecyclerView()
         subscribeData()
+        initRecyclerView()
     }
 
     private fun initRecyclerView() {
         val itemDecoration = DividerItemDecoration(this, LinearLayoutManager.VERTICAL)
-        usersAdapter = UsersAdapter()
+        usersAdapter = UsersAdapter(R.layout.list_user)
         usersAdapter.setOnItemClickCallback(this)
         rv_list_user.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
             addItemDecoration(itemDecoration)
             adapter = usersAdapter
+            messageView = adaptive_message_view
         }
     }
 
@@ -68,7 +71,10 @@ class MainActivity : AppCompatActivity(), UsersAdapter.OnItemClickCallback {
                     Log.e(TAG, "subscribeData: ${dataState.exception.message}")
                     Toast.makeText(this, getString(R.string.connection_error), Toast.LENGTH_SHORT).show()
                 }
-                is DataState.Loading -> progress_bar.showLoading(true)
+                is DataState.Loading -> {
+                    progress_bar.showLoading(true)
+                    adaptive_message_view.visibility = View.INVISIBLE
+                }
             }
         })
 
@@ -113,9 +119,14 @@ class MainActivity : AppCompatActivity(), UsersAdapter.OnItemClickCallback {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.action_language) {
-            Intent(Settings.ACTION_LOCALE_SETTINGS).also {
+        when (item.itemId) {
+            R.id.action_language -> Intent(Settings.ACTION_LOCALE_SETTINGS).also {
                 startActivity(it)
+            }
+            R.id.action_favorite -> {
+                Intent(this, FavoriteActivity::class.java).also {
+                    startActivity(it)
+                }
             }
         }
         return super.onOptionsItemSelected(item)

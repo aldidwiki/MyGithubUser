@@ -19,4 +19,10 @@
     <string name="tab_title_1">Diikuti</string>
     <string name="tab_title_2">Pengikut</string>
     <string name="language">Bahasa</string>
+    <string name="favorite">Favorit</string>
+    <string name="favorite_users">Pengguna Favorit</string>
+    <string name="data_not_available">Data tidak tersedia</string>
+    <string name="marked_favorite">Ditandai sebagai favorit</string>
+    <string name="removed_favorite">Dihapus dari favorit</string>
+    <string name="fav_users_title">Pengguna Favorit</string>
 </resources>
