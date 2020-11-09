@@ -17,11 +17,27 @@
 
     <string name="tab_title_1">Following</string>
     <string name="tab_title_2">Followers</string>
-    <string name="language">Language</string>
+    <string name="settings">Settings</string>
     <string name="favorite">Favorite</string>
     <string name="favorite_users">Favorite Users</string>
     <string name="data_not_available">Nothing to show</string>
     <string name="marked_favorite">Marked as Favorite</string>
     <string name="removed_favorite">Removed as Favorite</string>
     <string name="fav_users_title">Favorite Users</string>
+
+    <string name="key_reminder" translatable="false">key_reminder</string>
+    <string name="key_language" translatable="false">key_language</string>
+    <string name="language">Language</string>
+    <string name="reminder">Reminder at 09:00</string>
+    <string name="my_preference_name" translatable="false">util_preference</string>
+    <string name="reminder_time" translatable="false">09:00</string>
+
+    <string-array name="language_option">
+        <item>English</item>
+        <item>Indonesian</item>
+    </string-array>
+    <string name="reminder_message">Hello, this is your reminder!</string>
+    <string name="reminder_enabled">Reminder set up</string>
+    <string name="reminder_disabled">Reminder is off</string>
+    <string name="reminder_title">Reminder</string>
 </resources>

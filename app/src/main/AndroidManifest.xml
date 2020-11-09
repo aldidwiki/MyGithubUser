@@ -14,7 +14,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyGithubUser"
         tools:ignore="AllowBackup">
-        <activity android:name=".ui.favorite.FavoriteActivity"></activity>
+        <receiver
+            android:name=".util.AlarmReceiver"
+            android:enabled="true" />
+
+        <activity android:name="com.aldidwikip.mygithubuser.util.preference.SettingActivity" />
+        <activity android:name=".ui.favorite.FavoriteActivity" />
         <activity android:name=".ui.detail.DetailActivity" />
         <activity
             android:name=".ui.SplashActivity"

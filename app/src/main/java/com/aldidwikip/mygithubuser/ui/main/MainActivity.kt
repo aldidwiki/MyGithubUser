@@ -4,7 +4,6 @@ import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.provider.Settings
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -23,6 +22,7 @@ import com.aldidwikip.mygithubuser.helper.DataState
 import com.aldidwikip.mygithubuser.helper.showLoading
 import com.aldidwikip.mygithubuser.ui.detail.DetailActivity
 import com.aldidwikip.mygithubuser.ui.favorite.FavoriteActivity
+import com.aldidwikip.mygithubuser.util.preference.SettingActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.delay
@@ -120,8 +120,10 @@ class MainActivity : AppCompatActivity(), UsersAdapter.OnItemClickCallback {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_language -> Intent(Settings.ACTION_LOCALE_SETTINGS).also {
-                startActivity(it)
+            R.id.action_settings -> {
+                Intent(this, SettingActivity::class.java).also {
+                    startActivity(it)
+                }
             }
             R.id.action_favorite -> {
                 Intent(this, FavoriteActivity::class.java).also {

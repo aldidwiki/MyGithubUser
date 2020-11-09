@@ -12,13 +12,13 @@
         tools:ignore="AlwaysShowAction" />
 
     <item
-        android:id="@+id/action_language"
-        android:title="@string/language"
+        android:id="@+id/action_favorite"
+        android:title="@string/favorite_users"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_favorite"
-        android:title="@string/favorite_users"
+        android:id="@+id/action_settings"
+        android:title="@string/settings"
         app:showAsAction="never" />
 
 </menu>
