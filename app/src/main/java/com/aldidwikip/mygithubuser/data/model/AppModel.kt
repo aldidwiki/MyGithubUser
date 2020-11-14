@@ -41,6 +41,7 @@ data class User(
 data class UserProperty(
         @PrimaryKey
         @ColumnInfo(name = "username_fav") val username: String,
+        @ColumnInfo(name = "avatar_fav") val avatar: String,
         val isFavorite: Boolean
 )
 

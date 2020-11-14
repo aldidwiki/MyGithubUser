@@ -1,30 +1,36 @@
 package com.aldidwikip.mygithubuser.util.preference
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.widget.Toast
-import androidx.preference.ListPreference
+import android.provider.Settings
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
 import com.aldidwikip.mygithubuser.R
 import com.aldidwikip.mygithubuser.util.AlarmReceiver
+import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
+import javax.inject.Inject
 import kotlin.properties.Delegates
 
-class SettingFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
+@AndroidEntryPoint
+class SettingFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener,
+        Preference.OnPreferenceClickListener {
     private var reminder by Delegates.notNull<Boolean>()
-    private lateinit var language: String
     private lateinit var reminderPreference: SwitchPreference
-    private lateinit var languagePreference: ListPreference
+    private lateinit var languagePreference: Preference
     private lateinit var keyReminder: String
     private lateinit var keyLanguage: String
-    private lateinit var alarmReceiver: AlarmReceiver
+    private lateinit var sysLanguage: String
+    @Inject lateinit var alarmReceiver: AlarmReceiver
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.preferences)
+        sysLanguage = Locale.getDefault().displayLanguage
 
         keyReminder = getString(R.string.key_reminder)
         keyLanguage = getString(R.string.key_language)
-        alarmReceiver = AlarmReceiver()
 
         init()
     }
@@ -32,14 +38,15 @@ class SettingFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPr
     private fun init() {
         preferenceManager.sharedPreferences.apply {
             reminder = this.getBoolean(keyReminder, true)
-            language = this.getString(keyLanguage, "English").toString()
         }
 
         reminderPreference = findPreference<SwitchPreference>(keyReminder) as SwitchPreference
-        languagePreference = findPreference<ListPreference>(keyLanguage) as ListPreference
+        languagePreference = findPreference<Preference>(keyLanguage) as Preference
+
+        languagePreference.onPreferenceClickListener = this
 
         reminderPreference.isChecked = reminder
-        languagePreference.summary = language
+        languagePreference.summary = sysLanguage
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
@@ -53,11 +60,6 @@ class SettingFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPr
                 alarmReceiver.cancelAlarm(requireActivity())
             }
         }
-
-        if (key == keyLanguage) {
-            Toast.makeText(activity, sharedPreferences?.getString(keyLanguage, "English"), Toast.LENGTH_SHORT).show()
-            languagePreference.summary = sharedPreferences?.getString(keyLanguage, "English")
-        }
     }
 
     override fun onResume() {
@@ -68,5 +70,15 @@ class SettingFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPr
     override fun onPause() {
         super.onPause()
         preferenceScreen.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
+    }
+
+    override fun onPreferenceClick(preference: Preference?): Boolean {
+        if (preference?.key == keyLanguage) {
+            Intent(Settings.ACTION_LOCALE_SETTINGS).also {
+                startActivity(it)
+            }
+        }
+
+        return true
     }
 }

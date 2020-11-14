@@ -1,5 +1,6 @@
 package com.aldidwikip.mygithubuser.data.local
 
+import android.database.Cursor
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -24,6 +25,9 @@ interface LocalService {
 
     @Query("SELECT * FROM user_detail_table LEFT JOIN favorite_table ON username = username_fav WHERE isFavorite = 1 ORDER BY username ASC")
     fun getFavorite(): Flow<List<UserWithProperty>>
+
+    @Query("SELECT * FROM favorite_table ORDER BY username_fav ASC")
+    fun provideFavorite(): Cursor
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveUsers(users: List<Users>)

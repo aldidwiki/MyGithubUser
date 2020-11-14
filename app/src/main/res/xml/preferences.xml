@@ -12,10 +12,7 @@
         android:title="@string/reminder"
         app:iconSpaceReserved="false" />
 
-    <ListPreference
-        android:defaultValue="English"
-        android:entries="@array/language_option"
-        android:entryValues="@array/language_option"
+    <Preference
         android:icon="@drawable/ic_language"
         android:key="@string/key_language"
         android:title="@string/language"

@@ -16,10 +16,12 @@ import com.aldidwikip.mygithubuser.databinding.ActivityDetailBinding
 import com.aldidwikip.mygithubuser.helper.DataState
 import com.aldidwikip.mygithubuser.helper.favorite
 import com.aldidwikip.mygithubuser.helper.showLoading
+import com.aldidwikip.mygithubuser.util.provider.FavoriteProvider.Companion.CONTENT_URI
+import com.aldidwikip.mygithubuser.util.widget.ImageBannerWidget
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_detail.*
-import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
@@ -34,6 +36,7 @@ class DetailActivity : AppCompatActivity() {
     private val detailViewModel: DetailViewModel by viewModels()
     private var isFavorite = false
     private lateinit var username: String
+    private lateinit var avatar: String
     private lateinit var binding: ActivityDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,7 +48,7 @@ class DetailActivity : AppCompatActivity() {
         subscribeData(username)
 
         isFavorite = runBlocking {
-            withContext(IO) { detailViewModel.isFavorite(username) }
+            withContext(Dispatchers.IO) { detailViewModel.isFavorite(username) }
         }
     }
 
@@ -90,6 +93,8 @@ class DetailActivity : AppCompatActivity() {
                 company = company,
                 id = user.id
         )
+
+        avatar = user.avatar as String
     }
 
     private fun setupTabLayout(username: String) {
@@ -119,12 +124,15 @@ class DetailActivity : AppCompatActivity() {
                 isFavorite = !isFavorite
                 item.favorite(isFavorite)
                 if (isFavorite) {
-                    detailViewModel.saveFavorite(UserProperty(username, true))
+                    detailViewModel.saveFavorite(UserProperty(username, avatar, true))
+                    contentResolver.insert(CONTENT_URI, null) // only for update Uri
                     Snackbar.make(view_detail, getString(R.string.marked_favorite), Snackbar.LENGTH_SHORT).show()
                 } else {
                     detailViewModel.deleteFavorite(username)
+                    contentResolver.delete(CONTENT_URI, null, null) // only for update Uri
                     Snackbar.make(view_detail, getString(R.string.removed_favorite), Snackbar.LENGTH_SHORT).show()
                 }
+                ImageBannerWidget.updateStackView(this)
             }
         }
         return true

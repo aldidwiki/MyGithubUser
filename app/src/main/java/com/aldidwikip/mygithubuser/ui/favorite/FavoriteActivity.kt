@@ -14,6 +14,8 @@ import com.aldidwikip.mygithubuser.adapter.FavoriteAdapter
 import com.aldidwikip.mygithubuser.data.model.User
 import com.aldidwikip.mygithubuser.helper.ItemTouch
 import com.aldidwikip.mygithubuser.ui.detail.DetailActivity
+import com.aldidwikip.mygithubuser.util.provider.FavoriteProvider.Companion.CONTENT_URI
+import com.aldidwikip.mygithubuser.util.widget.ImageBannerWidget
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_favorite.*
@@ -40,6 +42,7 @@ class FavoriteActivity : AppCompatActivity(), FavoriteAdapter.OnItemClickedCallb
                 val listFavoriteUser = favoriteAdapter.currentList.toMutableList().removeAt(position)
                 val username = listFavoriteUser.username
                 favoriteViewModel.deleteFavorite(username)
+                contentResolver.delete(CONTENT_URI, null, null) // only for update Uri
                 Snackbar.make(rv_list_favorite, "$username ${getString(R.string.removed_favorite)}", Snackbar.LENGTH_SHORT).show()
             }
         }
@@ -59,6 +62,7 @@ class FavoriteActivity : AppCompatActivity(), FavoriteAdapter.OnItemClickedCallb
     private fun subscribeData() {
         favoriteViewModel.favoriteList.observe(this, { userFav ->
             favoriteAdapter.submitList(userFav.map { it.user })
+            ImageBannerWidget.updateStackView(this)
         })
     }
 

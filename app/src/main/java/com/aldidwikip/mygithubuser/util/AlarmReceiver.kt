@@ -16,8 +16,9 @@ import com.aldidwikip.mygithubuser.ui.main.MainActivity
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
-class AlarmReceiver : BroadcastReceiver() {
+class AlarmReceiver @Inject constructor() : BroadcastReceiver() {
     companion object {
         private const val EXTRA_MESSAGE = "extra_message"
         private const val CHANNEL_ID = "Channel_1"

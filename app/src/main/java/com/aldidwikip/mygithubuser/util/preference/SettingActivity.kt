@@ -5,7 +5,9 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import com.aldidwikip.mygithubuser.R
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SettingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

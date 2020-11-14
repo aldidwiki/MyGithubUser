@@ -22,4 +22,5 @@
         <item name="tabIndicatorColor">?attr/colorSecondary</item>
         <item name="tabSelectedTextColor">?attr/colorSecondary</item>
     </style>
+
 </resources>

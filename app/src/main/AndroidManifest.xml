@@ -5,6 +5,13 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <permission
+        android:name="com.aldidwikip.mygithubuser.READ_DATABASE"
+        android:protectionLevel="normal" />
+    <permission
+        android:name="com.aldidwikip.mygithubuser.WRITE_DATABASE"
+        android:protectionLevel="normal" />
+
     <application
         android:name=".MyGithubUser"
         android:allowBackup="true"
@@ -14,11 +21,33 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyGithubUser"
         tools:ignore="AllowBackup">
+        <receiver android:name=".util.widget.ImageBannerWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/image_banner_widget_info" />
+        </receiver>
+
+        <service
+            android:name=".util.widget.StackWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <provider
+            android:name=".util.provider.FavoriteProvider"
+            android:authorities="com.aldidwikip.mygithubuser"
+            android:enabled="true"
+            android:exported="true"
+            android:readPermission="com.aldidwikip.mygithubuser.READ_DATABASE"
+            android:writePermission="com.aldidwikip.mygithubuser.WRITE_DATABASE" />
+
         <receiver
             android:name=".util.AlarmReceiver"
             android:enabled="true" />
 
-        <activity android:name="com.aldidwikip.mygithubuser.util.preference.SettingActivity" />
+        <activity android:name=".util.preference.SettingActivity" />
         <activity android:name=".ui.favorite.FavoriteActivity" />
         <activity android:name=".ui.detail.DetailActivity" />
         <activity

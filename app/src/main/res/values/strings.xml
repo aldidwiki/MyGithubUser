@@ -32,12 +32,11 @@
     <string name="my_preference_name" translatable="false">util_preference</string>
     <string name="reminder_time" translatable="false">09:00</string>
 
-    <string-array name="language_option">
-        <item>English</item>
-        <item>Indonesian</item>
-    </string-array>
-    <string name="reminder_message">Hello, this is your reminder!</string>
+    <string name="reminder_message">Let\'s find popular user on Github!</string>
     <string name="reminder_enabled">Reminder set up</string>
     <string name="reminder_disabled">Reminder is off</string>
     <string name="reminder_title">Reminder</string>
+
+    <string name="empty_text">No Data</string>
+    <string name="appwidget_text">My Github Favorites</string>
 </resources>
