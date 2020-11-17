@@ -39,4 +39,5 @@
 
     <string name="empty_text">No Data</string>
     <string name="appwidget_text">My Github Favorites</string>
+    <string name="profile_picture">Profile Picture</string>
 </resources>

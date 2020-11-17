@@ -1,5 +1,6 @@
 package com.aldidwikip.mygithubuser.di
 
+import com.aldidwikip.mygithubuser.BuildConfig
 import com.aldidwikip.mygithubuser.data.remote.RemoteService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -15,7 +16,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(ApplicationComponent::class)
 object RemoteModule {
-    private const val API_TOKEN = "token 527d37e0495099ab7add05db387091ca9895131c"
+    private const val API_TOKEN = BuildConfig.API_TOKEN
 
     @Singleton
     @Provides

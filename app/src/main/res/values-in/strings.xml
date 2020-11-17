@@ -33,4 +33,5 @@
     <string name="reminder_title">Pengingat</string>
     <string name="empty_text">Data TIdak Tersedia</string>
     <string name="appwidget_text">Favorit Github</string>
+    <string name="profile_picture">Foto Profil</string>
 </resources>
