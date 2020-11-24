@@ -15,10 +15,10 @@ import kotlinx.coroutines.flow.Flow
 interface LocalService {
 
     @Query("SELECT * FROM users_table ORDER BY username ASC")
-    fun getUsers(): List<Users>
+    fun getUsers(): Flow<List<Users>>
 
     @Query("SELECT * FROM user_detail_table WHERE username = :username")
-    fun getUser(username: String): User
+    fun getUser(username: String): Flow<User>
 
     @Query("SELECT * FROM favorite_table WHERE username_fav = :username")
     fun isFavorite(username: String): UserProperty

@@ -6,6 +6,7 @@ import com.aldidwikip.mygithubuser.data.model.UserProperty
 import com.aldidwikip.mygithubuser.data.remote.RemoteService
 import com.aldidwikip.mygithubuser.helper.DataState
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
@@ -28,7 +29,7 @@ class AppRepository @Inject constructor(private val remoteService: RemoteService
             emit(DataState.Error(e))
             Log.e(TAG, "getUsers: ${e.message}")
         } finally {
-            emit(DataState.Success(localService.getUsers()))
+            localService.getUsers().collect { emit(DataState.Success(it)) }
         }
     }.flowOn(IO)
 
@@ -43,7 +44,7 @@ class AppRepository @Inject constructor(private val remoteService: RemoteService
             emit(DataState.Error(e))
             Log.e(TAG, "getUser: ${e.message}")
         } finally {
-            emit(DataState.Success(localService.getUser(username)))
+            localService.getUser(username).collect { emit(DataState.Success(it)) }
         }
     }.flowOn(IO)
 
@@ -86,14 +87,6 @@ class AppRepository @Inject constructor(private val remoteService: RemoteService
         }
     }.flowOn(IO)
 
-    suspend fun saveFavorite(user: UserProperty) {
-        try {
-            localService.saveFavorite(user)
-        } catch (e: Exception) {
-            Log.e(TAG, "saveFavorite: ${e.message}")
-        }
-    }
-
     fun isFavorite(username: String) = flow {
         try {
             emit(localService.isFavorite(username))
@@ -101,6 +94,14 @@ class AppRepository @Inject constructor(private val remoteService: RemoteService
             Log.e(TAG, "isFavorite: ${e.message}")
         }
     }.flowOn(IO)
+
+    suspend fun saveFavorite(user: UserProperty) {
+        try {
+            localService.saveFavorite(user)
+        } catch (e: Exception) {
+            Log.e(TAG, "saveFavorite: ${e.message}")
+        }
+    }
 
     suspend fun deleteFavorite(username: String) {
         try {
