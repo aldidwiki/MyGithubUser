@@ -40,4 +40,8 @@
     <string name="empty_text">No Data</string>
     <string name="appwidget_text">My Github Favorites</string>
     <string name="profile_picture">Profile Picture</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="key_theme" translatable="false">key_theme</string>
+    <string name="dark_mode_auto">Dark Mode Automatic</string>
+    <string name="dark_mode_on">Dark Mode On</string>
 </resources>

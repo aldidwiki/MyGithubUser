@@ -12,6 +12,15 @@
         android:title="@string/reminder"
         app:iconSpaceReserved="false" />
 
+    <SwitchPreference
+        android:defaultValue="false"
+        android:icon="@drawable/ic_palette"
+        android:key="@string/key_theme"
+        android:summaryOff="@string/dark_mode_auto"
+        android:summaryOn="@string/dark_mode_on"
+        android:title="@string/dark_mode"
+        app:iconSpaceReserved="false" />
+
     <Preference
         android:icon="@drawable/ic_language"
         android:key="@string/key_language"

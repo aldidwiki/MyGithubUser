@@ -34,4 +34,7 @@
     <string name="empty_text">Data TIdak Tersedia</string>
     <string name="appwidget_text">Favorit Github</string>
     <string name="profile_picture">Foto Profil</string>
+    <string name="dark_mode">Mode Gelap</string>
+    <string name="dark_mode_auto">Mode Gelap Otomatis</string>
+    <string name="dark_mode_on">Mode Gelap Aktif</string>
 </resources>
