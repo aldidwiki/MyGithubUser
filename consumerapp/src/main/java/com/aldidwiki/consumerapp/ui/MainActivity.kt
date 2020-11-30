@@ -37,8 +37,8 @@ class MainActivity : AppCompatActivity(), FavoriteAdapter.OnItemClickCallback {
 
         try {
             contentResolver.registerContentObserver(DatabaseContract.UserColumns.CONTENT_URI, true, observer)
-            initRecycler()
             subscribeData()
+            initRecycler()
         } catch (e: SecurityException) {
             Log.e(TAG, "onCreate: ${e.message}")
             Toast.makeText(this, getString(R.string.main_app_not_installed), Toast.LENGTH_LONG).show()
