@@ -16,6 +16,7 @@ import com.aldidwikip.mygithubuser.helper.favorite
 import com.aldidwikip.mygithubuser.helper.showLoading
 import com.aldidwikip.mygithubuser.ui.BaseVBActivity
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.runBlocking
@@ -94,12 +95,14 @@ class DetailActivity : BaseVBActivity<ActivityDetailBinding>() {
     }
 
     private fun setupTabLayout(username: String) {
-        val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
+        val tabTitles = intArrayOf(R.string.tab_title_1, R.string.tab_title_2)
+        val sectionsPagerAdapter = SectionsPagerAdapter(tabTitles.size, supportFragmentManager, lifecycle)
         sectionsPagerAdapter.username = username
-        binding.apply {
-            viewPager.adapter = sectionsPagerAdapter
-            tabFollows.setupWithViewPager(viewPager)
-        }
+
+        binding.viewPager.adapter = sectionsPagerAdapter
+        TabLayoutMediator(binding.tabFollows, binding.viewPager) { tab, pos ->
+            tab.text = resources.getString(tabTitles[pos])
+        }.attach()
 
         supportActionBar?.elevation = 0f
     }

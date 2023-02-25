@@ -1,25 +1,18 @@
 package com.aldidwikip.mygithubuser.adapter
 
-import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
-import com.aldidwikip.mygithubuser.R
+import androidx.lifecycle.Lifecycle
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.aldidwikip.mygithubuser.ui.follows.FollowsFragment
 
-class SectionsPagerAdapter(private val mContext: Context, fm: FragmentManager) :
-        FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
-
-    private val tabTitles = intArrayOf(R.string.tab_title_1, R.string.tab_title_2)
+class SectionsPagerAdapter(private val itemsCount: Int, fm: FragmentManager, lifecycle: Lifecycle)
+    : FragmentStateAdapter(fm, lifecycle) {
     var username: String? = null
 
-    override fun getCount(): Int = 2
+    override fun getItemCount(): Int = itemsCount
 
-    override fun getItem(position: Int): Fragment {
+    override fun createFragment(position: Int): Fragment {
         return FollowsFragment.newInstance(username, position)
-    }
-
-    override fun getPageTitle(position: Int): CharSequence? {
-        return mContext.resources.getString(tabTitles[position])
     }
 }
