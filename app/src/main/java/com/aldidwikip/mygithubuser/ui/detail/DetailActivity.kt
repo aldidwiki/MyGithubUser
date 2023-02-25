@@ -117,7 +117,7 @@ class DetailActivity : BaseVBActivity<ActivityDetailBinding>() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> onBackPressed()
+            android.R.id.home -> onBackPressCallback()
             R.id.action_fav -> {
                 isFavorite = !isFavorite
                 item.favorite(isFavorite)

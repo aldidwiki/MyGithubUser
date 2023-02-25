@@ -128,9 +128,9 @@ class MainActivity : BaseVBActivity<ActivityMainBinding>(), UsersAdapter.OnItemC
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onBackPressed() {
+    override fun onBackPressCallback() {
         if (doubleTapOnce) {
-            super.onBackPressed()
+            super.onBackPressCallback()
             return
         }
         this.doubleTapOnce = true

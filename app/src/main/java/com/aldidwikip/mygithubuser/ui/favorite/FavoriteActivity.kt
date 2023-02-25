@@ -65,7 +65,7 @@ class FavoriteActivity : BaseVBActivity<ActivityFavoriteBinding>(), FavoriteAdap
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
-            onBackPressed()
+            finish()
         }
         return super.onOptionsItemSelected(item)
     }

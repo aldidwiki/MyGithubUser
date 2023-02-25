@@ -72,8 +72,8 @@ class FollowsFragment : Fragment(), UsersAdapter.OnItemClickCallback {
 
     private fun subscribeData(index: Int) {
         when (index) {
-            0 -> followsViewModel.userFollowing.observe(viewLifecycleOwner, { appendData(it) })
-            1 -> followsViewModel.userFollowers.observe(viewLifecycleOwner, { appendData(it) })
+            0 -> followsViewModel.userFollowing.observe(viewLifecycleOwner) { appendData(it) }
+            1 -> followsViewModel.userFollowers.observe(viewLifecycleOwner) { appendData(it) }
         }
     }
 
