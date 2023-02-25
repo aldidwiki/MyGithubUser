@@ -22,7 +22,6 @@ import com.aldidwikip.mygithubuser.helper.showLoading
 import com.aldidwikip.mygithubuser.ui.BaseVBActivity
 import com.aldidwikip.mygithubuser.ui.detail.DetailActivity
 import com.aldidwikip.mygithubuser.ui.favorite.FavoriteActivity
-import com.aldidwikip.mygithubuser.util.preference.SettingActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -120,11 +119,6 @@ class MainActivity : BaseVBActivity<ActivityMainBinding>(), UsersAdapter.OnItemC
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_settings -> {
-                Intent(this, SettingActivity::class.java).also {
-                    startActivity(it)
-                }
-            }
             R.id.action_favorite -> {
                 Intent(this, FavoriteActivity::class.java).also {
                     startActivity(it)

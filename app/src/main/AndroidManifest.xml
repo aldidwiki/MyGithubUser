@@ -15,18 +15,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyGithubUser"
         tools:ignore="AllowBackup">
-        <receiver
-            android:name=".util.AlarmReceiver"
-            android:enabled="true" />
 
-        <activity android:name="com.aldidwikip.mygithubuser.util.preference.SettingActivity" />
         <activity android:name=".ui.favorite.FavoriteActivity" />
         <activity android:name=".ui.detail.DetailActivity" />
         <activity
             android:name=".ui.SplashActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.MyGithubUser.Launcher"
-            android:exported="true">
+            android:theme="@style/Theme.MyGithubUser.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
