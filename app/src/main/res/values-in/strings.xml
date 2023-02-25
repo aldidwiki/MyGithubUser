@@ -18,17 +18,9 @@
 
     <string name="tab_title_1">Diikuti</string>
     <string name="tab_title_2">Pengikut</string>
-    <string name="settings">Pengaturan</string>
     <string name="favorite">Favorit</string>
     <string name="favorite_users">Pengguna Favorit</string>
-    <string name="data_not_available">Data tidak tersedia</string>
     <string name="marked_favorite">Ditandai sebagai favorit</string>
     <string name="removed_favorite">Dihapus dari favorit</string>
     <string name="fav_users_title">Pengguna Favorit</string>
-    <string name="language">Bahasa</string>
-    <string name="reminder">Pengingat pada 09:00</string>
-    <string name="reminder_message">Halo, ini adalah pengingatmu!</string>
-    <string name="reminder_enabled">Pengingat diaktifkan</string>
-    <string name="reminder_disabled">Pengingat dinonaktifkan</string>
-    <string name="reminder_title">Pengingat</string>
 </resources>
