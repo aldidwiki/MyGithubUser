@@ -30,7 +30,7 @@ class SettingFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPr
     }
 
     private fun init() {
-        preferenceManager.sharedPreferences.apply {
+        preferenceManager.sharedPreferences?.apply {
             reminder = this.getBoolean(keyReminder, true)
             language = this.getString(keyLanguage, "English").toString()
         }
@@ -62,11 +62,11 @@ class SettingFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPr
 
     override fun onResume() {
         super.onResume()
-        preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+        preferenceScreen.sharedPreferences?.registerOnSharedPreferenceChangeListener(this)
     }
 
     override fun onPause() {
         super.onPause()
-        preferenceScreen.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
+        preferenceScreen.sharedPreferences?.unregisterOnSharedPreferenceChangeListener(this)
     }
 }
