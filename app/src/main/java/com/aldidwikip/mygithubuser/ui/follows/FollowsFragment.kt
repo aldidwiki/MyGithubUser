@@ -13,11 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.aldidwikip.mygithubuser.R
 import com.aldidwikip.mygithubuser.adapter.UsersAdapter
 import com.aldidwikip.mygithubuser.data.model.Users
+import com.aldidwikip.mygithubuser.databinding.FragmentFollowsBinding
 import com.aldidwikip.mygithubuser.helper.DataState
 import com.aldidwikip.mygithubuser.helper.showLoading
 import com.aldidwikip.mygithubuser.ui.detail.DetailActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_follows.*
 
 @AndroidEntryPoint
 class FollowsFragment : Fragment(), UsersAdapter.OnItemClickCallback {
@@ -37,11 +37,14 @@ class FollowsFragment : Fragment(), UsersAdapter.OnItemClickCallback {
         }
     }
 
+    private var _binding: FragmentFollowsBinding? = null
+    private val binding get() = _binding!!
     private val followsViewModel: FollowsViewModel by viewModels()
     private lateinit var usersAdapter: UsersAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_follows, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        _binding = FragmentFollowsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -60,11 +63,10 @@ class FollowsFragment : Fragment(), UsersAdapter.OnItemClickCallback {
         val itemDecoration = DividerItemDecoration(activity, LinearLayoutManager.VERTICAL)
         usersAdapter = UsersAdapter(R.layout.list_follows)
         usersAdapter.setOnItemClickCallback(this)
-        rv_follows.apply {
+        binding.rvFollows.apply {
             layoutManager = LinearLayoutManager(activity)
             addItemDecoration(itemDecoration)
             adapter = usersAdapter
-            messageView = adaptive_message_view
         }
     }
 
@@ -76,18 +78,19 @@ class FollowsFragment : Fragment(), UsersAdapter.OnItemClickCallback {
     }
 
     private fun appendData(dataState: DataState<List<Users>>) {
-        when (dataState) {
-            is DataState.Success -> {
-                progress_bar.showLoading(false)
-                usersAdapter.submitList(dataState.data)
-            }
-            is DataState.Error -> {
-                progress_bar.showLoading(false)
-                Log.e(TAG, "appendData: ${dataState.exception.message}")
-            }
-            is DataState.Loading -> {
-                progress_bar.showLoading(true)
-                adaptive_message_view.visibility = View.INVISIBLE
+        binding.apply {
+            when (dataState) {
+                is DataState.Success -> {
+                    progressBar.showLoading(false)
+                    usersAdapter.submitList(dataState.data)
+                }
+                is DataState.Error -> {
+                    progressBar.showLoading(false)
+                    Log.e(TAG, "appendData: ${dataState.exception.message}")
+                }
+                is DataState.Loading -> {
+                    progressBar.showLoading(true)
+                }
             }
         }
     }

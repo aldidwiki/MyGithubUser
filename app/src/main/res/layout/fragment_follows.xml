@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -14,20 +13,9 @@
         android:layout_centerInParent="true"
         android:visibility="gone" />
 
-    <com.smlnskgmail.jaman.adaptiverecyclerview.AdaptiveRecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_follows"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/list_favorite" />
-
-    <com.smlnskgmail.jaman.adaptiverecyclerview.AdaptiveMessageView
-        android:id="@+id/adaptive_message_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:message_image="@drawable/ic_error"
-        app:message_image_tint="@color/primary_500"
-        app:message_text="@string/data_not_available"
-        app:message_text_color="?colorOnBackground"
-        app:message_text_size="18sp" />
-
 </RelativeLayout>

@@ -1,6 +1,5 @@
 package com.aldidwikip.mygithubuser.ui.follows
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,10 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.aldidwikip.mygithubuser.data.AppRepository
 import com.aldidwikip.mygithubuser.data.model.Users
 import com.aldidwikip.mygithubuser.helper.DataState
-import kotlinx.coroutines.flow.collect
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class FollowsViewModel @ViewModelInject constructor(private val appRepository: AppRepository) : ViewModel() {
+@HiltViewModel
+class FollowsViewModel @Inject constructor(private val appRepository: AppRepository) : ViewModel() {
     private val _userFollowing: MutableLiveData<DataState<List<Users>>> = MutableLiveData()
     private val _userFollowers: MutableLiveData<DataState<List<Users>>> = MutableLiveData()
 

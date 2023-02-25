@@ -6,8 +6,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import com.aldidwikip.mygithubuser.R
 import com.aldidwikip.mygithubuser.adapter.SectionsPagerAdapter
 import com.aldidwikip.mygithubuser.data.model.User
@@ -16,15 +14,15 @@ import com.aldidwikip.mygithubuser.databinding.ActivityDetailBinding
 import com.aldidwikip.mygithubuser.helper.DataState
 import com.aldidwikip.mygithubuser.helper.favorite
 import com.aldidwikip.mygithubuser.helper.showLoading
+import com.aldidwikip.mygithubuser.ui.BaseVBActivity
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
-class DetailActivity : AppCompatActivity() {
+class DetailActivity : BaseVBActivity<ActivityDetailBinding>() {
 
     companion object {
         private const val TAG = "DetailActivity"
@@ -34,11 +32,12 @@ class DetailActivity : AppCompatActivity() {
     private val detailViewModel: DetailViewModel by viewModels()
     private var isFavorite = false
     private lateinit var username: String
-    private lateinit var binding: ActivityDetailBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_detail)
+    override fun getViewBinding(): ActivityDetailBinding {
+        return ActivityDetailBinding.inflate(layoutInflater)
+    }
+
+    override fun init(savedInstanceState: Bundle?) {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         username = intent.getStringExtra(EXTRA_USER) as String
@@ -50,27 +49,29 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun subscribeData(username: String) {
-        detailViewModel.getUser(username)
-        detailViewModel.user.observe(this, { dataState ->
-            when (dataState) {
-                is DataState.Success -> {
-                    progress_bar.showLoading(false)
-                    try {
-                        appendData(dataState.data)
-                        setupTabLayout(username)
-                    } catch (e: NullPointerException) {
-                        Log.e(TAG, "subscribeData: ${e.message}")
-                        Toast.makeText(this, getString(R.string.connection_error), Toast.LENGTH_SHORT).show()
+        binding.apply {
+            detailViewModel.getUser(username)
+            detailViewModel.user.observe(this@DetailActivity) { dataState ->
+                when (dataState) {
+                    is DataState.Success -> {
+                        progressBar.showLoading(false)
+                        try {
+                            appendData(dataState.data)
+                            setupTabLayout(username)
+                        } catch (e: NullPointerException) {
+                            Log.e(TAG, "subscribeData: ${e.message}")
+                            Toast.makeText(this@DetailActivity, getString(R.string.connection_error), Toast.LENGTH_SHORT).show()
+                        }
                     }
+                    is DataState.Error -> {
+                        progressBar.showLoading(false)
+                        Log.e(TAG, "subscribeData: ${dataState.exception.message}")
+                        Toast.makeText(this@DetailActivity, getString(R.string.connection_error), Toast.LENGTH_SHORT).show()
+                    }
+                    is DataState.Loading -> progressBar.showLoading(true)
                 }
-                is DataState.Error -> {
-                    progress_bar.showLoading(false)
-                    Log.e(TAG, "subscribeData: ${dataState.exception.message}")
-                    Toast.makeText(this, getString(R.string.connection_error), Toast.LENGTH_SHORT).show()
-                }
-                is DataState.Loading -> progress_bar.showLoading(true)
             }
-        })
+        }
     }
 
     private fun appendData(user: User) {
@@ -95,8 +96,10 @@ class DetailActivity : AppCompatActivity() {
     private fun setupTabLayout(username: String) {
         val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
         sectionsPagerAdapter.username = username
-        view_pager.adapter = sectionsPagerAdapter
-        tab_follows.setupWithViewPager(view_pager)
+        binding.apply {
+            viewPager.adapter = sectionsPagerAdapter
+            tabFollows.setupWithViewPager(viewPager)
+        }
 
         supportActionBar?.elevation = 0f
     }
@@ -120,10 +123,10 @@ class DetailActivity : AppCompatActivity() {
                 item.favorite(isFavorite)
                 if (isFavorite) {
                     detailViewModel.saveFavorite(UserProperty(username, true))
-                    Snackbar.make(view_detail, getString(R.string.marked_favorite), Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(binding.viewDetail, getString(R.string.marked_favorite), Snackbar.LENGTH_SHORT).show()
                 } else {
                     detailViewModel.deleteFavorite(username)
-                    Snackbar.make(view_detail, getString(R.string.removed_favorite), Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(binding.viewDetail, getString(R.string.removed_favorite), Snackbar.LENGTH_SHORT).show()
                 }
             }
         }

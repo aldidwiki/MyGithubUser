@@ -7,10 +7,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -18,18 +16,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.aldidwikip.mygithubuser.R
 import com.aldidwikip.mygithubuser.adapter.UsersAdapter
 import com.aldidwikip.mygithubuser.data.model.Users
+import com.aldidwikip.mygithubuser.databinding.ActivityMainBinding
 import com.aldidwikip.mygithubuser.helper.DataState
 import com.aldidwikip.mygithubuser.helper.showLoading
+import com.aldidwikip.mygithubuser.ui.BaseVBActivity
 import com.aldidwikip.mygithubuser.ui.detail.DetailActivity
 import com.aldidwikip.mygithubuser.ui.favorite.FavoriteActivity
 import com.aldidwikip.mygithubuser.util.preference.SettingActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), UsersAdapter.OnItemClickCallback {
+class MainActivity : BaseVBActivity<ActivityMainBinding>(), UsersAdapter.OnItemClickCallback {
 
     companion object {
         private const val TAG = "MainActivity"
@@ -39,10 +38,11 @@ class MainActivity : AppCompatActivity(), UsersAdapter.OnItemClickCallback {
     private var doubleTapOnce = false
     private lateinit var usersAdapter: UsersAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+    override fun getViewBinding(): ActivityMainBinding {
+        return ActivityMainBinding.inflate(layoutInflater)
+    }
 
+    override fun init(savedInstanceState: Bundle?) {
         subscribeData()
         initRecyclerView()
     }
@@ -51,48 +51,48 @@ class MainActivity : AppCompatActivity(), UsersAdapter.OnItemClickCallback {
         val itemDecoration = DividerItemDecoration(this, LinearLayoutManager.VERTICAL)
         usersAdapter = UsersAdapter(R.layout.list_user)
         usersAdapter.setOnItemClickCallback(this)
-        rv_list_user.apply {
+        binding.rvListUser.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
             addItemDecoration(itemDecoration)
             adapter = usersAdapter
-            messageView = adaptive_message_view
         }
     }
 
     private fun subscribeData() {
-        mainViewModel.users.observe(this, { dataState ->
-            when (dataState) {
-                is DataState.Success -> {
-                    progress_bar.showLoading(false)
-                    usersAdapter.submitList(dataState.data)
-                }
-                is DataState.Error -> {
-                    progress_bar.showLoading(false)
-                    Log.e(TAG, "subscribeData: ${dataState.exception.message}")
-                    Toast.makeText(this, getString(R.string.connection_error), Toast.LENGTH_SHORT).show()
-                }
-                is DataState.Loading -> {
-                    progress_bar.showLoading(true)
-                    adaptive_message_view.visibility = View.INVISIBLE
+        binding.apply {
+            mainViewModel.users.observe(this@MainActivity) { dataState ->
+                when (dataState) {
+                    is DataState.Success -> {
+                        progressBar.showLoading(false)
+                        usersAdapter.submitList(dataState.data)
+                    }
+                    is DataState.Error -> {
+                        progressBar.showLoading(false)
+                        Log.e(TAG, "subscribeData: ${dataState.exception.message}")
+                        Toast.makeText(this@MainActivity, getString(R.string.connection_error), Toast.LENGTH_SHORT).show()
+                    }
+                    is DataState.Loading -> {
+                        progressBar.showLoading(true)
+                    }
                 }
             }
-        })
 
-        mainViewModel.searchUser.observe(this, { dataState ->
-            when (dataState) {
-                is DataState.Success -> {
-                    progress_bar.showLoading(false)
-                    if (dataState.data.isEmpty()) Toast.makeText(this, getString(R.string.no_result_found), Toast.LENGTH_SHORT).show()
-                    else usersAdapter.submitList(dataState.data)
+            mainViewModel.searchUser.observe(this@MainActivity) { dataState ->
+                when (dataState) {
+                    is DataState.Success -> {
+                        progressBar.showLoading(false)
+                        if (dataState.data.isEmpty()) Toast.makeText(this@MainActivity, getString(R.string.no_result_found), Toast.LENGTH_SHORT).show()
+                        else usersAdapter.submitList(dataState.data)
+                    }
+                    is DataState.Error -> {
+                        progressBar.showLoading(false)
+                        Log.e(TAG, "subscribeData: ${dataState.exception.message}")
+                        Toast.makeText(this@MainActivity, getString(R.string.connection_error), Toast.LENGTH_SHORT).show()
+                    }
+                    is DataState.Loading -> progressBar.showLoading(true)
                 }
-                is DataState.Error -> {
-                    progress_bar.showLoading(false)
-                    Log.e(TAG, "subscribeData: ${dataState.exception.message}")
-                    Toast.makeText(this, getString(R.string.connection_error), Toast.LENGTH_SHORT).show()
-                }
-                is DataState.Loading -> progress_bar.showLoading(true)
             }
-        })
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

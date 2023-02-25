@@ -6,14 +6,14 @@ import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 object RemoteModule {
     private const val API_TOKEN = "token 527d37e0495099ab7add05db387091ca9895131c"
 
@@ -34,7 +34,6 @@ object RemoteModule {
 
         return Retrofit.Builder()
                 .baseUrl("https://api.github.com/")
-                .client(httpClient)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build()
     }

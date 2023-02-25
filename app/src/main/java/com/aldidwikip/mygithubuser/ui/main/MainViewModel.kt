@@ -1,14 +1,15 @@
 package com.aldidwikip.mygithubuser.ui.main
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.aldidwikip.mygithubuser.data.AppRepository
 import com.aldidwikip.mygithubuser.data.model.Users
 import com.aldidwikip.mygithubuser.helper.DataState
-import kotlinx.coroutines.flow.collect
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel @ViewModelInject constructor(private val appRepository: AppRepository) : ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(private val appRepository: AppRepository) : ViewModel() {
     private val _searchUser: MutableLiveData<DataState<List<Users>>> = MutableLiveData()
     val searchUser: LiveData<DataState<List<Users>>> = _searchUser
 

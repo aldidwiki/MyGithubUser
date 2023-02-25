@@ -51,7 +51,7 @@ class AlarmReceiver : BroadcastReceiver() {
             set(Calendar.SECOND, 0)
         }
 
-        val pendingIntent = PendingIntent.getBroadcast(context, ID_REPEATING, intent, 0)
+        val pendingIntent = PendingIntent.getBroadcast(context, ID_REPEATING, intent, 0 or PendingIntent.FLAG_IMMUTABLE)
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, AlarmManager.INTERVAL_DAY, pendingIntent)
 
         Toast.makeText(context, context.getString(R.string.reminder_enabled), Toast.LENGTH_SHORT).show()
@@ -60,7 +60,7 @@ class AlarmReceiver : BroadcastReceiver() {
     fun cancelAlarm(context: Context) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, AlarmReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(context, ID_REPEATING, intent, 0)
+        val pendingIntent = PendingIntent.getBroadcast(context, ID_REPEATING, intent, 0 or PendingIntent.FLAG_IMMUTABLE)
         pendingIntent.cancel()
         alarmManager.cancel(pendingIntent)
         Toast.makeText(context, context.getString(R.string.reminder_disabled), Toast.LENGTH_SHORT).show()
@@ -68,7 +68,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
     private fun isAlarmSet(context: Context): Boolean {
         val intent = Intent(context, AlarmReceiver::class.java)
-        return PendingIntent.getBroadcast(context, ID_REPEATING, intent, PendingIntent.FLAG_NO_CREATE) != null
+        return PendingIntent.getBroadcast(context, ID_REPEATING, intent, PendingIntent.FLAG_NO_CREATE or PendingIntent.FLAG_IMMUTABLE) != null
     }
 
     private fun isDateInvalid(date: String): Boolean {
@@ -85,7 +85,7 @@ class AlarmReceiver : BroadcastReceiver() {
     private fun showAlarmNotification(context: Context, message: String) {
         val intent = Intent(context, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-        val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
 
         val notificationManagerCompat = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)

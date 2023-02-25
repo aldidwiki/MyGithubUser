@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,20 +11,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aldidwikip.mygithubuser.R
 import com.aldidwikip.mygithubuser.adapter.FavoriteAdapter
 import com.aldidwikip.mygithubuser.data.model.User
+import com.aldidwikip.mygithubuser.databinding.ActivityFavoriteBinding
 import com.aldidwikip.mygithubuser.helper.ItemTouch
+import com.aldidwikip.mygithubuser.ui.BaseVBActivity
 import com.aldidwikip.mygithubuser.ui.detail.DetailActivity
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_favorite.*
 
 @AndroidEntryPoint
-class FavoriteActivity : AppCompatActivity(), FavoriteAdapter.OnItemClickedCallback {
+class FavoriteActivity : BaseVBActivity<ActivityFavoriteBinding>(), FavoriteAdapter.OnItemClickedCallback {
     private val favoriteViewModel: FavoriteViewModel by viewModels()
     private lateinit var favoriteAdapter: FavoriteAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_favorite)
+    override fun getViewBinding(): ActivityFavoriteBinding {
+        return ActivityFavoriteBinding.inflate(layoutInflater)
+    }
+
+    override fun init(savedInstanceState: Bundle?) {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = getString(R.string.fav_users_title)
 
@@ -40,26 +42,25 @@ class FavoriteActivity : AppCompatActivity(), FavoriteAdapter.OnItemClickedCallb
                 val listFavoriteUser = favoriteAdapter.currentList.toMutableList().removeAt(position)
                 val username = listFavoriteUser.username
                 favoriteViewModel.deleteFavorite(username)
-                Snackbar.make(rv_list_favorite, "$username ${getString(R.string.removed_favorite)}", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.rvListFavorite, "$username ${getString(R.string.removed_favorite)}", Snackbar.LENGTH_SHORT).show()
             }
         }
-        ItemTouchHelper(swipeHandler).attachToRecyclerView(rv_list_favorite)
+        ItemTouchHelper(swipeHandler).attachToRecyclerView(binding.rvListFavorite)
 
         val itemDecoration = DividerItemDecoration(this, LinearLayoutManager.VERTICAL)
         favoriteAdapter = FavoriteAdapter()
         favoriteAdapter.setOnItemClickCallback(this)
-        rv_list_favorite.apply {
+        binding.rvListFavorite.apply {
             layoutManager = LinearLayoutManager(this@FavoriteActivity)
             addItemDecoration(itemDecoration)
             adapter = favoriteAdapter
-            messageView = adaptive_message_view
         }
     }
 
     private fun subscribeData() {
-        favoriteViewModel.favoriteList.observe(this, { userFav ->
+        favoriteViewModel.favoriteList.observe(this) { userFav ->
             favoriteAdapter.submitList(userFav.map { it.user })
-        })
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -1,6 +1,5 @@
 package com.aldidwikip.mygithubuser.ui.detail
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,11 +8,13 @@ import com.aldidwikip.mygithubuser.data.AppRepository
 import com.aldidwikip.mygithubuser.data.model.User
 import com.aldidwikip.mygithubuser.data.model.UserProperty
 import com.aldidwikip.mygithubuser.helper.DataState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DetailViewModel @ViewModelInject constructor(private val appRepository: AppRepository) : ViewModel() {
+@HiltViewModel
+class DetailViewModel @Inject constructor(private val appRepository: AppRepository) : ViewModel() {
     private val _user: MutableLiveData<DataState<User>> = MutableLiveData()
     val user: LiveData<DataState<User>> = _user
 

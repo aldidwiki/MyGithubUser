@@ -4,6 +4,7 @@
     package="com.aldidwikip.mygithubuser">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:name=".MyGithubUser"
@@ -24,7 +25,8 @@
         <activity
             android:name=".ui.SplashActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.MyGithubUser.Launcher">
+            android:theme="@style/Theme.MyGithubUser.Launcher"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
