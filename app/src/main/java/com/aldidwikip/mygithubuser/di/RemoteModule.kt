@@ -1,6 +1,7 @@
 package com.aldidwikip.mygithubuser.di
 
-import com.aldidwikip.mygithubuser.data.remote.RemoteService
+import com.aldidwikip.mygithubuser.BuildConfig
+import com.aldidwikip.mygithubuser.data.source.remote.RemoteService
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -23,6 +24,12 @@ object RemoteModule {
 
         val httpClient = OkHttpClient.Builder()
                 .addInterceptor(logging)
+                .addInterceptor { chain ->
+                    val request = chain.request().newBuilder()
+                            .addHeader("Authorization", "token ${BuildConfig.GITHUB_TOKEN}")
+                            .build()
+                    return@addInterceptor chain.proceed(request)
+                }
                 .build()
 
         return Retrofit.Builder()

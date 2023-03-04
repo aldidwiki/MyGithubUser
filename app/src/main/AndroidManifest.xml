@@ -16,10 +16,10 @@
         android:theme="@style/Theme.MyGithubUser"
         tools:ignore="AllowBackup">
 
-        <activity android:name=".ui.favorite.FavoriteActivity" />
-        <activity android:name=".ui.detail.DetailActivity" />
+        <activity android:name=".presentation.ui.favorite.FavoriteActivity" />
+        <activity android:name=".presentation.ui.detail.DetailActivity" />
         <activity
-            android:name=".ui.SplashActivity"
+            android:name=".presentation.ui.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MyGithubUser.Launcher">
@@ -29,7 +29,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.main.MainActivity" />
+        <activity android:name=".presentation.ui.main.MainActivity" />
     </application>
 
 </manifest>

@@ -10,12 +10,17 @@ android {
     compileSdkVersion 33
     buildToolsVersion "30.0.3"
 
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
     defaultConfig {
         applicationId "com.aldidwikip.mygithubuser"
         minSdkVersion 23
         targetSdkVersion 33
         versionCode 1
         versionName "1.0"
+
+        buildConfigField("String", "GITHUB_TOKEN", properties.getProperty('GITHUB_TOKEN'))
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

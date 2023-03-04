@@ -8,7 +8,7 @@
 
         <variable
             name="userData"
-            type="com.aldidwikip.mygithubuser.data.model.User" />
+            type="com.aldidwikip.mygithubuser.domain.model.UserDetail" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -54,7 +54,7 @@
         <TextView
             android:id="@+id/tv_location"
             style="@style/TextDetail"
-            android:text="@{userData.location}"
+            android:text="@{userData.location ?? @string/unknown}"
             app:drawableStartCompat="@drawable/ic_location"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_username"
@@ -63,7 +63,7 @@
         <TextView
             android:id="@+id/tv_company"
             style="@style/TextDetail"
-            android:text="@{userData.company}"
+            android:text="@{userData.company ?? @string/not_mentioned}"
             app:drawableStartCompat="@drawable/ic_company"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_location"
