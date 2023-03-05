@@ -7,7 +7,7 @@
 
         <variable
             name="userData"
-            type="com.aldidwikip.mygithubuser.domain.model.User" />
+            type="com.aldidwikip.mygithubuser.domain.model.UserDetail" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

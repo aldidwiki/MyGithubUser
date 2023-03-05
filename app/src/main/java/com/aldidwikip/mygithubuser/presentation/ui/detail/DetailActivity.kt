@@ -10,6 +10,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.aldidwikip.mygithubuser.R
 import com.aldidwikip.mygithubuser.databinding.ActivityDetailBinding
+import com.aldidwikip.mygithubuser.domain.model.UserDetail
 import com.aldidwikip.mygithubuser.helper.DataState
 import com.aldidwikip.mygithubuser.helper.favorite
 import com.aldidwikip.mygithubuser.helper.showLoading
@@ -30,7 +31,7 @@ class DetailActivity : BaseVBActivity<ActivityDetailBinding>() {
 
     private val detailViewModel: DetailViewModel by viewModels()
     private var isFavorite = false
-    private lateinit var username: String
+    private var userDetail: UserDetail? = null
 
     override fun getViewBinding(): ActivityDetailBinding {
         return ActivityDetailBinding.inflate(layoutInflater)
@@ -39,7 +40,7 @@ class DetailActivity : BaseVBActivity<ActivityDetailBinding>() {
     override fun init(savedInstanceState: Bundle?) {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        username = intent.getStringExtra(EXTRA_USER) as String
+        val username = intent.getStringExtra(EXTRA_USER) as String
         subscribeData(username)
     }
 
@@ -63,52 +64,13 @@ class DetailActivity : BaseVBActivity<ActivityDetailBinding>() {
 
                             setupTabLayout(username)
                             userData = dataState.data
+                            userDetail = dataState.data
                         }
                     }
                 }
             }
-
-//            detailViewModel.userFavoriteEntity.observe(this@DetailActivity) { dataState ->
-//                when (dataState) {
-//                    is DataState.Success -> {
-//                        progressBar.showLoading(false)
-//                        try {
-//                            appendData(dataState.data)
-//                            setupTabLayout(username)
-//                        } catch (e: NullPointerException) {
-//                            Log.e(TAG, "subscribeData: ${e.message}")
-//                            Toast.makeText(this@DetailActivity, getString(R.string.connection_error), Toast.LENGTH_SHORT).show()
-//                        }
-//                    }
-//                    is DataState.Error -> {
-//                        progressBar.showLoading(false)
-//                        Log.e(TAG, "subscribeData: ${dataState.exception.message}")
-//                        Toast.makeText(this@DetailActivity, getString(R.string.connection_error), Toast.LENGTH_SHORT).show()
-//                    }
-//                    is DataState.Loading -> progressBar.showLoading(true)
-//                }
-//            }
         }
     }
-
-//    private fun appendData(userFavoriteEntity: UserFavoriteEntity) {
-//        supportActionBar?.title = userFavoriteEntity.username
-//
-//        val location = userFavoriteEntity.location ?: getString(R.string.unknown)
-//        val company = userFavoriteEntity.company ?: getString(R.string.not_mentioned)
-//
-//        binding.userData = UserFavoriteEntity(
-//                username = userFavoriteEntity.username,
-//                name = userFavoriteEntity.name,
-//                avatar = userFavoriteEntity.avatar,
-//                followers = userFavoriteEntity.followers,
-//                following = userFavoriteEntity.following,
-//                repositoryNum = userFavoriteEntity.repositoryNum,
-//                location = location,
-//                company = company,
-//                id = userFavoriteEntity.id
-//        )
-//    }
 
     private fun setupTabLayout(username: String) {
         val tabTitles = intArrayOf(R.string.tab_title_1, R.string.tab_title_2)
@@ -131,6 +93,12 @@ class DetailActivity : BaseVBActivity<ActivityDetailBinding>() {
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         val toggleFav = menu?.findItem(R.id.action_fav)
         toggleFav?.favorite(isFavorite)
+//        lifecycleScope.launch {
+//            detailViewModel.getFavorite.flowWithLifecycle(lifecycle).collectLatest {
+//                isFavorite = it.username.isNotEmpty()
+//                toggleFav?.favorite(it.username.isNotEmpty())
+//            }
+//        }
         return true
     }
 
@@ -140,12 +108,15 @@ class DetailActivity : BaseVBActivity<ActivityDetailBinding>() {
             R.id.action_fav -> {
                 isFavorite = !isFavorite
                 item.favorite(isFavorite)
-                if (isFavorite) {
-//                    detailViewModel.saveFavorite(UserProperty(username, true))
-                    Snackbar.make(binding.viewDetail, getString(R.string.marked_favorite), Snackbar.LENGTH_SHORT).show()
-                } else {
-//                    detailViewModel.deleteFavorite(username)
-                    Snackbar.make(binding.viewDetail, getString(R.string.removed_favorite), Snackbar.LENGTH_SHORT).show()
+
+                userDetail?.let {
+                    if (isFavorite) {
+                        detailViewModel.saveToFavorite(it)
+                        Snackbar.make(binding.viewDetail, getString(R.string.marked_favorite), Snackbar.LENGTH_SHORT).show()
+                    } else {
+                        detailViewModel.deleteFavorite(it)
+                        Snackbar.make(binding.viewDetail, getString(R.string.removed_favorite), Snackbar.LENGTH_SHORT).show()
+                    }
                 }
             }
         }

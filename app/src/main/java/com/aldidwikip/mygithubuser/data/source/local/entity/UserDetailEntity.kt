@@ -1,9 +1,12 @@
-package com.aldidwikip.mygithubuser.domain.model
+package com.aldidwikip.mygithubuser.data.source.local.entity
 
-import com.aldidwikip.mygithubuser.data.source.local.entity.UserDetailEntity
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.aldidwikip.mygithubuser.domain.model.UserDetail
 
-data class UserDetail(
-        val username: String,
+@Entity(tableName = "user_favorite_table")
+data class UserDetailEntity(
+        @PrimaryKey val username: String,
         val avatar: String?,
         val name: String?,
         val location: String?,
@@ -13,7 +16,7 @@ data class UserDetail(
         val repositoryNum: Int,
         val id: Int
 ) {
-    fun toEntity(): UserDetailEntity = UserDetailEntity(
+    fun toDomain(): UserDetail = UserDetail(
             username = username,
             avatar = avatar,
             name = name,

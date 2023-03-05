@@ -15,4 +15,12 @@ interface AppRepository {
     fun getUserFollower(username: String): Flow<DataState<List<User>>>
 
     fun getUserSearch(keyword: String): Flow<DataState<List<User>>>
+
+    fun getFavorites(): Flow<List<UserDetail>>
+
+    fun getFavorite(username: String): Flow<UserDetail>
+
+    suspend fun saveFavorite(userDetail: UserDetail)
+
+    suspend fun deleteFavorite(userDetail: UserDetail)
 }
