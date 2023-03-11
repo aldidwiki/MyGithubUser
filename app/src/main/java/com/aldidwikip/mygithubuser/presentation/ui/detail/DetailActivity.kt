@@ -19,6 +19,7 @@ import com.aldidwikip.mygithubuser.presentation.ui.BaseVBActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -93,12 +94,12 @@ class DetailActivity : BaseVBActivity<ActivityDetailBinding>() {
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         val toggleFav = menu?.findItem(R.id.action_fav)
         toggleFav?.favorite(isFavorite)
-//        lifecycleScope.launch {
-//            detailViewModel.getFavorite.flowWithLifecycle(lifecycle).collectLatest {
-//                isFavorite = it.username.isNotEmpty()
-//                toggleFav?.favorite(it.username.isNotEmpty())
-//            }
-//        }
+        lifecycleScope.launch {
+            detailViewModel.getFavorite.flowWithLifecycle(lifecycle).collectLatest {
+                isFavorite = it.username.isNotEmpty()
+                toggleFav?.favorite(it.username.isNotEmpty())
+            }
+        }
         return true
     }
 
